@@ -1,0 +1,38 @@
+name: SiberKalkan APK Build
+
+on:
+  push:
+    branches: [ "main", "master" ] # Ana dala kod yüklendiğinde tetiklenir
+  workflow_dispatch: # GitHub üzerinden manuel tetikleme butonu ekler
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest # Mac veya Linux ortamı (Windows hatası vermez)
+
+    steps:
+      - name: Kodları İndir
+        uses: actions/checkout@v3
+      
+      - name: Java Kurulumu
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          
+      - name: Flutter Kurulumu
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Bağımlılıkları Yükle
+        run: flutter pub get
+        
+      - name: APK Derle (Release Mode)
+        run: flutter build apk --release
+        
+      - name: APK'yı Çıktı Olarak Ver
+        uses: actions/upload-artifact@v4
+        with:
+          name: SiberKalkan-Release-APK
+          path: build/app/outputs/flutter-apk/app-release.apk

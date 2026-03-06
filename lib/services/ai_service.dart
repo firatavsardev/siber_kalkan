@@ -5,14 +5,14 @@
 // ============================================================
 
 import 'package:flutter/foundation.dart';
-// import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 
 class AiService {
   static final AiService _instance = AiService._internal();
   factory AiService() => _instance;
   AiService._internal();
 
-  // Interpreter? _interpreter;
+  Interpreter? _interpreter;
   bool _isModelLoaded = false;
 
   bool get isModelLoaded => _isModelLoaded;
@@ -20,8 +20,7 @@ class AiService {
   /// Modeli yükle
   Future<void> loadModel() async {
     try {
-      // Not: 'assets/models/spam_model.tflite' dosyası gerçek bir modelle değiştirilmelidir.
-      // _interpreter = await Interpreter.fromAsset('assets/models/spam_model.tflite');
+      _interpreter = await Interpreter.fromAsset('assets/models/spam_model.tflite');
       _isModelLoaded = true;
       debugPrint('🤖 AI Modeli başarıyla yüklendi.');
     } catch (e) {
@@ -38,18 +37,18 @@ class AiService {
     }
 
     try {
-      // 1. Metni modelin anladığı formata (Tokenize) dönüştürme (Dummy)
-      // Bu kısımda BERT veya LSTM tokenizer kodları yer almalıdır.
+      // 1. Metni modelin anladığı formata (Tokenize) dönüştürme
       var input = _tokenizeText(text);
 
-      // 2. Çıktı buffer'ı (Örn: Model [0, 1] arası tek bir float döndürüyorsa)
-      var output = List.filled(1 * 1, 0.0);
+      // Keras modelimiz tek bir probability (float32) döndürüyor
+      // Şekli: [1, 1]
+      var output = List.filled(1 * 1, 0.0).reshape([1, 1]);
 
       // 3. Modeli çalıştır
-      // _interpreter!.run(input, output);
+      _interpreter!.run(input, output);
 
       // 4. Tahmini al
-      double probability = output[0];
+      double probability = output[0][0];
       return probability;
     } catch (e) {
       debugPrint('🤖 AI Analiz hatası: $e');
@@ -59,12 +58,12 @@ class AiService {
 
   /// Metni sayısal dizilere dönüştürme simülasyonu
   List<List<int>> _tokenizeText(String text) {
-    // Gerçek bir NLP (Doğal Dil İşleme) uygulamasında vocabulary dosyası okunup
-    // kelimeler ID'lere çevrilir. (Max Length = 256 padding)
-    return [List.filled(256, 0)];
+    // Gerçek bir NLP uygulamasında vocabulary ile kelimeler ID'lere çevrilir. (Max Length = 50 padding)
+    // Şimdilik model çökmesin diye sıfırlarla dolu (veya rastgele) dummy bir dizi gönderiyoruz
+    return [List.filled(50, 0)];
   }
 
   void dispose() {
-    // _interpreter?.close();
+    _interpreter?.close();
   }
 }
