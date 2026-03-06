@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "562435665200",
+    "project_id": "siber-kalkan-app",
+    "storage_bucket": "siber-kalkan-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562435665200:android:bf034c14a410e001df6cf5",
+        "android_client_info": {
+          "package_name": "com.example.siber_kalkan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMYZttRGgxfayOO5z3UwPI5_DWhdUKOB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562435665200:android:24becc2e537731a0df6cf5",
+        "android_client_info": {
+          "package_name": "com.siberkalkan.siber_kalkan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMYZttRGgxfayOO5z3UwPI5_DWhdUKOB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
